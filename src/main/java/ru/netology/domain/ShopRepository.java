@@ -33,21 +33,13 @@ public class ShopRepository {
         return products;
     }
 
-    public Product findById(int id) {
-        for (Product product : products) {
-            if (product.getId() != id) {
-                return product;
-            }
-        }
-        return null;
-    }
 
     public void removeById(int id) {
-        if (id < 0) {
-            throw new NotFoundException(
-                    "Element with id: " + id + " not found"
-            );
-        }
+      Product removingProduct =findById(id);
+      if (removingProduct == null) {
+          throw new NotFoundException(id);
+      }
+
         Product[] tmp = new Product[products.length - 1];
         int copyToIndex = 0;
         for (Product product : products) {
@@ -58,4 +50,13 @@ public class ShopRepository {
         }
         products = tmp;
     }
+    private Product findById(int id) {
+        for (Product product : products) {
+            if (product.getId() == id) {
+                return product;
+            }
+        }
+        return null;
+    }
+
 }
